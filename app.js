@@ -27,29 +27,25 @@ const asciiHeart = [
     "⠀      ⠙⠻⠁"
 ];
 
-/* const asciiHeart = [
-    "    *****    ",
-    "  *********  ",
-    " *********** ",
-    "*************",
-    "*************",
-    " *********** ",
-    "  *********  ",
-    "    *****    "
-]; */
-
 const animateByChart = (ms) => {
-    asciiHeart.forEach((line, lineIndex) => {
-        line.split('').forEach((char, charIndex) => {
+    let totalDelay = 0; // Lleva el tiempo acumulado
+
+    asciiHeart.forEach((line) => { //recorre cada linea del corazon
+        line.split('').forEach((char, charIndex) => { //divide la linea en caracteres y lo recorre con el forEach
             setTimeout(() => {
-                process.stdout.write(char);
-                if (charIndex === line.length - 1) {
-                    console.log(''); // Salto de línea al final de cada línea
+                process.stdout.write(char);//este en vez de ser console.log para que no imprima con salto de linea automatico
+                if (charIndex === line.length - 1) { 
+                    process.stdout.write('\n'); // Forzar el salto de línea cuando terminamos de leer la linea
                 }
-            }, ms * (lineIndex * line.length + charIndex)); // Calcular el delay para cada caracter
+            }, totalDelay);
+            totalDelay += ms; // valor actual de totaldelay, le suma ms, guarda el nuevo valor en totaldelay
         });
     });
-}
+};
+/* cada setTimeout siempre está basado en el tiempo acumulado de totalDelay, no en el intervalo entre caracteres.
+totalDelay no afecta la velocidad entre caracteres, sino que calcula el momento exacto en que se debe 
+imprimir cada carácter en función de un retraso acumulado */
+
 
 const animateByLine = (ms) => {
     asciiHeart.forEach((line, index) => {
@@ -60,5 +56,5 @@ const animateByLine = (ms) => {
 }
 
 // Para iniciar el proyecto, ejecuta node app.js y descomenta las siguientes líneas para probar las funciones:
- animateByChart(20); // Prueba la animación carácter por carácter con un delay de 10ms
-//animateByLine(500);   // Prueba la animación línea por línea con un delay de 500ms
+animateByChart(100); 
+//animateByLine(500);   
